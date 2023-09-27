@@ -56,7 +56,7 @@ body {
   max-width: 42rem;
   background-color: #12100e;
   border-radius: 0.9rem;
-  overflow: scroll;
+  overflow: auto;
   position: relative;
 }
 
@@ -140,7 +140,7 @@ body {
 .list {
   list-style: none;
   padding: 0.8rem 0;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .list-watched {
