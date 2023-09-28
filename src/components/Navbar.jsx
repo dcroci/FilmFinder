@@ -1,12 +1,4 @@
-import Logo from './Logo';
-import Search from './Search';
-import NumResults from './NumResults';
-export default function Navbar() {
-  return (
-    <nav className="nav-bar">
-      <Logo />
-      <Search />
-      <NumResults />
-    </nav>
-  );
+/* eslint-disable react/prop-types */
+export default function Navbar({ children }) {
+  return <nav className="nav-bar">{children}</nav>;
 }

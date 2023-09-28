@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 export default function WatchedSummary({ watched }) {
   const average = (arr) =>
     arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);

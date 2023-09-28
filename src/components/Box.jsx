@@ -1,7 +1,7 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
-import List from './List';
 
-export default function ListBox() {
+export default function Box({ children }) {
   const [isOpen1, setIsOpen1] = useState(true);
 
   return (
@@ -12,7 +12,7 @@ export default function ListBox() {
       >
         {isOpen1 ? '–' : '+'}
       </button>
-      {isOpen1 && <List />}
+      {isOpen1 && children}
     </div>
   );
 }
