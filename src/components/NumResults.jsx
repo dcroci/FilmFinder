@@ -1,7 +1,8 @@
-export default function NumResults() {
+/* eslint-disable react/prop-types */
+export default function NumResults({ movies }) {
   return (
     <p className="num-results">
-      Found <strong>X</strong> results
+      Found <strong>{movies ? movies.length : 0}</strong> results
     </p>
   );
 }

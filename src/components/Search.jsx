@@ -1,13 +1,12 @@
-import { useState } from 'react';
-export default function Search() {
-  const [query, setQuery] = useState('');
+/* eslint-disable react/prop-types */
+export default function Search({ query, onQueryChange }) {
   return (
     <input
       className="search"
       type="text"
       placeholder="Search movies..."
       value={query}
-      onChange={(e) => setQuery(e.target.value)}
+      onChange={onQueryChange}
     />
   );
 }
