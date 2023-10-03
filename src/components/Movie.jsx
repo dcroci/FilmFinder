@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-export default function Movie({ movie }) {
+export default function Movie({ movie, onSelectId, id }) {
   return (
-    <li>
+    <li onClick={() => onSelectId(id)}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
       <h3>{movie.Title}</h3>
       <div>

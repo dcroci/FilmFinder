@@ -12,6 +12,7 @@ import WatchedSummary from './components/WatchedSummary';
 import WatchedList from './components/WatchedList';
 import Loader from './components/Loader';
 import ErrorMessage from './components/ErrorMessage';
+import SelectedMovie from './components/SelectedMovie';
 
 export default function App() {
   //SEARCH BAR DATA
@@ -24,8 +25,12 @@ export default function App() {
   //SETS AN ERROR MESSAGE IF API DOES NOT FETCH INFO
   const [error, setError] = useState('');
   //HANDLES USER INPUT IN SEARCH BAR
+  const [selectedId, setSelectedId] = useState(null);
   function onQueryChange(e) {
     setQuery(e.target.value);
+  }
+  function handleSelectMovie(id) {
+    setSelectedId(id);
   }
   //MAKE API CALL AND UPDATE MOVIES ARRAY
   useEffect(() => {
@@ -80,13 +85,19 @@ export default function App() {
           ) : isLoading ? (
             <Loader />
           ) : (
-            <List movies={movies} />
+            <List movies={movies} onSelectId={handleSelectMovie} />
           )}
         </Box>
         <Box>
           {/* passed with children props */}
-          <WatchedSummary watched={watched} />
-          <WatchedList watched={watched} />
+          {!selectedId ? (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedList watched={watched} />
+            </>
+          ) : (
+            <SelectedMovie id={selectedId} />
+          )}
         </Box>
       </Main>
     </>
