@@ -11,6 +11,7 @@ import List from './components/List';
 import WatchedSummary from './components/WatchedSummary';
 import WatchedList from './components/WatchedList';
 import Loader from './components/Loader';
+import ErrorMessage from './components/ErrorMessage';
 
 export default function App() {
   //SEARCH BAR DATA
@@ -20,6 +21,7 @@ export default function App() {
   const [watched, setWatched] = useState([]);
   //SHOWS WHILE API IS LOADING
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   //HANDLES USER INPUT IN SEARCH BAR
   function onQueryChange(e) {
     setQuery(e.target.value);
@@ -27,14 +29,38 @@ export default function App() {
   //MAKE API CALL AND UPDATE MOVIES ARRAY
   useEffect(() => {
     async function callAPI() {
-      setIsLoading(true);
-      const res = await fetch(
-        `https://www.omdbapi.com/?apikey=da90156c&s=${query}`
-      );
-      const data = await res.json();
-      setMovies(data.Search);
-      setIsLoading(false);
+      try {
+        setIsLoading(true);
+        if (query) {
+          const res = await fetch(
+            `https://www.omdbapi.com/?apikey=da90156c&s=${query}`
+          );
+          if (!res.ok) {
+            throw new Error('Something went wrong!');
+          }
+          const data = await res.json();
+          if (
+            data.Response === 'True' &&
+            data.Search &&
+            data.Search.length > 0
+          ) {
+            setMovies(data.Search);
+            setError('');
+          } else {
+            setMovies([]);
+            setError('Movie not found!');
+          }
+        } else {
+          setMovies([]);
+          setError('');
+        }
+      } catch (error) {
+        setError('Something went wrong!');
+      } finally {
+        setIsLoading(false);
+      }
     }
+
     callAPI();
   }, [query]);
   return (
@@ -48,7 +74,13 @@ export default function App() {
       <Main>
         <Box>
           {/* passed with children props */}
-          {isLoading ? <Loader /> : <List movies={movies} />}
+          {error ? (
+            <ErrorMessage message={error} />
+          ) : isLoading ? (
+            <Loader />
+          ) : (
+            <List movies={movies} />
+          )}
         </Box>
         <Box>
           {/* passed with children props */}
