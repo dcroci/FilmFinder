@@ -21,6 +21,7 @@ export default function App() {
   const [watched, setWatched] = useState([]);
   //SHOWS WHILE API IS LOADING
   const [isLoading, setIsLoading] = useState(false);
+  //SETS AN ERROR MESSAGE IF API DOES NOT FETCH INFO
   const [error, setError] = useState('');
   //HANDLES USER INPUT IN SEARCH BAR
   function onQueryChange(e) {
@@ -31,7 +32,7 @@ export default function App() {
     async function callAPI() {
       try {
         setIsLoading(true);
-        if (query) {
+        if (query.length > 2) {
           const res = await fetch(
             `https://www.omdbapi.com/?apikey=da90156c&s=${query}`
           );
@@ -69,7 +70,7 @@ export default function App() {
         {/* passed with children props */}
         <Logo />
         <Search onQueryChange={onQueryChange} query={query} />
-        <NumResults movies={movies} />
+        {query.length > 2 && <NumResults movies={movies} />}
       </Navbar>
       <Main>
         <Box>
