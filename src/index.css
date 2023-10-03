@@ -399,9 +399,6 @@ body {
   .box {
     overflow-x: hidden;
   }
-  .list {
-    overflow: hidden;
-  }
   .summary div {
     max-width: 100%;
     flex-wrap: wrap;
