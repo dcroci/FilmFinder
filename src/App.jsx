@@ -13,6 +13,7 @@ import WatchedList from './components/WatchedList';
 import Loader from './components/Loader';
 import ErrorMessage from './components/ErrorMessage';
 import SelectedMovie from './components/SelectedMovie';
+import Footer from './components/Footer';
 
 export default function App() {
   //SEARCH BAR DATA
@@ -100,6 +101,7 @@ export default function App() {
           )}
         </Box>
       </Main>
+      <Footer />
     </>
   );
 }

@@ -40,6 +40,15 @@ body {
   background-color: #1f1f1f;
   border-radius: 0.9rem;
 }
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+  background-color: #1f1f1f;
+  border-radius: 0.9rem;
+  padding: 2rem 3.2rem;
+}
 
 .main {
   margin-top: 2.4rem;
