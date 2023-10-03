@@ -17,7 +17,7 @@ export default function App() {
     setQuery(e.target.value);
   }
   useEffect(() => {
-    fetch(`http://www.omdbapi.com/?apikey=da90156c&s=${query}`)
+    fetch(`https://www.omdbapi.com/?apikey=da90156c&s=${query}`)
       .then((res) => res.json())
       .then((data) => setMovies(data.Search));
   }, [query]);
