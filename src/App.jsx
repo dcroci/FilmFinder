@@ -27,6 +27,7 @@ export default function App() {
   const [error, setError] = useState('');
   //HANDLES USER INPUT IN SEARCH BAR
   const [selectedId, setSelectedId] = useState(null);
+  const [rating, setRating] = useState();
   function onQueryChange(e) {
     setQuery(e.target.value);
   }
@@ -35,6 +36,9 @@ export default function App() {
   }
   function onResetSelectedId() {
     setSelectedId(null);
+  }
+  function handleAddWatched(movie) {
+    setWatched((prevState) => [...prevState, movie]);
   }
   //MAKE API CALL AND UPDATE MOVIES ARRAY
   useEffect(() => {
@@ -73,6 +77,7 @@ export default function App() {
 
     callAPI();
   }, [query]);
+  console.log(watched);
   return (
     <>
       <Navbar>
@@ -103,6 +108,9 @@ export default function App() {
             <SelectedMovie
               id={selectedId}
               onResetSelectedId={onResetSelectedId}
+              onAddWatched={handleAddWatched}
+              rating={rating}
+              setRating={setRating}
             />
           )}
         </Box>
