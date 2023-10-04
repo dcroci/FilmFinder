@@ -3,7 +3,7 @@ import Movie from './Movie';
 
 export default function List({ movies, onSelectId }) {
   return (
-    <ul className="list">
+    <ul className="list list-movies">
       {movies?.map((movie) => (
         <Movie
           movie={movie}

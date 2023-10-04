@@ -31,7 +31,10 @@ export default function App() {
     setQuery(e.target.value);
   }
   function handleSelectMovie(id) {
-    setSelectedId(id);
+    setSelectedId((prevState) => (prevState === id ? null : id));
+  }
+  function onResetSelectedId() {
+    setSelectedId(null);
   }
   //MAKE API CALL AND UPDATE MOVIES ARRAY
   useEffect(() => {
@@ -97,7 +100,10 @@ export default function App() {
               <WatchedList watched={watched} />
             </>
           ) : (
-            <SelectedMovie id={selectedId} />
+            <SelectedMovie
+              id={selectedId}
+              onResetSelectedId={onResetSelectedId}
+            />
           )}
         </Box>
       </Main>
