@@ -9,6 +9,7 @@ export default function SelectedMovie({
   onAddWatched,
   rating,
   setRating,
+  watched,
 }) {
   const [selectedMovie, setSelectedMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -37,6 +38,10 @@ export default function SelectedMovie({
     Director: director,
     Genre: genre,
   } = selectedMovie;
+  const isWatched = watched.map((movie) => movie.imdbID.imdbID).includes(id);
+  const watchedUserRating = watched.find(
+    (movie) => movie.imdbID.imdbID === id
+  )?.userRating;
   function handleAdd() {
     let newWatchedMovie = {
       imdbID: selectedMovie,
@@ -75,15 +80,23 @@ export default function SelectedMovie({
           </header>
           <section>
             <div className="rating">
-              <StarRating
-                maxRating={10}
-                size={24}
-                rating={rating}
-                setRating={setRating}
-              />
-              <button className="btn-add" onClick={handleAdd}>
-                + Add to list
-              </button>
+              {!isWatched ? (
+                <>
+                  <StarRating
+                    maxRating={10}
+                    size={24}
+                    rating={rating}
+                    setRating={setRating}
+                  />
+                  <button className="btn-add" onClick={handleAdd}>
+                    + Add to list
+                  </button>
+                </>
+              ) : (
+                <p style={{ textAlign: 'center' }}>
+                  You already rated this movie a {watchedUserRating} ⭐
+                </p>
+              )}
             </div>
             <p>
               <em>{plot}</em>

@@ -27,18 +27,28 @@ export default function App() {
   const [error, setError] = useState('');
   //HANDLES USER INPUT IN SEARCH BAR
   const [selectedId, setSelectedId] = useState(null);
+  //STATE FOR USER RATING FOR STAR COMPONENT
   const [rating, setRating] = useState();
+  //HANDLES SEARCH BAR INPUT
   function onQueryChange(e) {
     setQuery(e.target.value);
   }
+  //SELECTS THE MOVIE THAT MATCHES THE ID
   function handleSelectMovie(id) {
     setSelectedId((prevState) => (prevState === id ? null : id));
   }
+  //RESETS BACK TO NO MOVIE SELECTED
   function onResetSelectedId() {
     setSelectedId(null);
   }
+  //ADDS MOVIE TO WATCH ARRAY
   function handleAddWatched(movie) {
     setWatched((prevState) => [...prevState, movie]);
+  }
+  function handleDeleteWatched(id) {
+    setWatched((watched) =>
+      watched.filter((movie) => movie.imdbID.imdbID !== id)
+    );
   }
   //MAKE API CALL AND UPDATE MOVIES ARRAY
   useEffect(() => {
@@ -102,7 +112,10 @@ export default function App() {
           {!selectedId ? (
             <>
               <WatchedSummary watched={watched} />
-              <WatchedList watched={watched} />
+              <WatchedList
+                watched={watched}
+                onDeleteWatched={handleDeleteWatched}
+              />
             </>
           ) : (
             <SelectedMovie
@@ -111,6 +124,7 @@ export default function App() {
               onAddWatched={handleAddWatched}
               rating={rating}
               setRating={setRating}
+              watched={watched}
             />
           )}
         </Box>
