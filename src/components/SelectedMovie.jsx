@@ -13,6 +13,17 @@ export default function SelectedMovie({
 }) {
   const [selectedMovie, setSelectedMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const {
+    Title: title,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: genre,
+  } = selectedMovie;
   useEffect(() => {
     setIsLoading(true);
     async function getMovie() {
@@ -26,18 +37,16 @@ export default function SelectedMovie({
     }
     getMovie();
   }, [id]);
-  const {
-    Title: title,
-    Year: year,
-    Poster: poster,
-    Runtime: runtime,
-    imdbRating,
-    Plot: plot,
-    Released: released,
-    Actors: actors,
-    Director: director,
-    Genre: genre,
-  } = selectedMovie;
+  useEffect(() => {
+    if (title) {
+      document.title = `MOVIE: ${title}`;
+    }
+    return () => {
+      document.title = 'FilmFinder';
+    };
+  }, [title]);
+  console.log(selectedMovie.Title);
+
   const isWatched = watched.map((movie) => movie.imdbID.imdbID).includes(id);
   const watchedUserRating = watched.find(
     (movie) => movie.imdbID.imdbID === id
@@ -51,6 +60,8 @@ export default function SelectedMovie({
       runtime: Number(runtime.split(' ').at(0)),
       userRating: rating,
     };
+    console.log(selectedMovie.Title);
+    document.title = `MOVIE: ${selectedMovie.Title}`;
     onAddWatched(newWatchedMovie);
     onResetSelectedId();
     setRating(0);
