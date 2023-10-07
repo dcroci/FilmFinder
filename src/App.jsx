@@ -50,6 +50,7 @@ export default function App() {
       watched.filter((movie) => movie.imdbID.imdbID !== id)
     );
   }
+
   //MAKE API CALL AND UPDATE MOVIES ARRAY
   useEffect(() => {
     const controller = new AbortController();
@@ -82,7 +83,6 @@ export default function App() {
         }
       } catch (error) {
         if (error.name !== 'AbortError') setError('Something went wrong!');
-        console.log(error.name);
       } finally {
         setIsLoading(false);
       }

@@ -45,7 +45,18 @@ export default function SelectedMovie({
       document.title = 'FilmFinder';
     };
   }, [title]);
-  console.log(selectedMovie.Title);
+  useEffect(() => {
+    function escapeMovie(e) {
+      if (e.code === 'Escape') {
+        onResetSelectedId();
+        console.log('Closing');
+      }
+    }
+    document.addEventListener('keydown', escapeMovie);
+    return () => {
+      document.removeEventListener('keydown', escapeMovie);
+    };
+  }, [onResetSelectedId]);
 
   const isWatched = watched.map((movie) => movie.imdbID.imdbID).includes(id);
   const watchedUserRating = watched.find(
@@ -60,7 +71,6 @@ export default function SelectedMovie({
       runtime: Number(runtime.split(' ').at(0)),
       userRating: rating,
     };
-    console.log(selectedMovie.Title);
     document.title = `MOVIE: ${selectedMovie.Title}`;
     onAddWatched(newWatchedMovie);
     onResetSelectedId();
