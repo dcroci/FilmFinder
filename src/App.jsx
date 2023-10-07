@@ -52,12 +52,14 @@ export default function App() {
   }
   //MAKE API CALL AND UPDATE MOVIES ARRAY
   useEffect(() => {
+    const controller = new AbortController();
     async function callAPI() {
       try {
         setIsLoading(true);
         if (query.length > 2) {
           const res = await fetch(
-            `https://www.omdbapi.com/?apikey=da90156c&s=${query}`
+            `https://www.omdbapi.com/?apikey=da90156c&s=${query}`,
+            { signal: controller.signal }
           );
           if (!res.ok) {
             throw new Error('Something went wrong!');
@@ -79,15 +81,19 @@ export default function App() {
           setError('');
         }
       } catch (error) {
-        setError('Something went wrong!');
+        if (error.name !== 'AbortError') setError('Something went wrong!');
+        console.log(error.name);
       } finally {
         setIsLoading(false);
       }
     }
 
     callAPI();
+    return () => {
+      controller.abort();
+    };
   }, [query]);
-  console.log(watched);
+
   return (
     <>
       <Navbar>
