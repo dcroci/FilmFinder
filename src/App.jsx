@@ -108,7 +108,11 @@ export default function App() {
       <Navbar>
         {/* passed with children props */}
         <Logo />
-        <Search onQueryChange={onQueryChange} query={query} />
+        <Search
+          onQueryChange={onQueryChange}
+          query={query}
+          setQuery={setQuery}
+        />
         {query.length > 2 && <NumResults movies={movies} />}
       </Navbar>
       <Main>
