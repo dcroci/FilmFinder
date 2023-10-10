@@ -20,7 +20,12 @@ export default function App() {
   const [query, setQuery] = useState('');
   //LIST OF MOVIES THAT ARE A RESULT OF THE SEARCH
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
+  //LIST OF MOVIES THAT HAVE BEEN ADDED TO WATCHED LIST
+  //USES LAZY STATE INITIALIZATION TO GET MOVIES FROM LOCAL STORAGE
+  const [watched, setWatched] = useState(() => {
+    const storedValue = localStorage.getItem('watched');
+    return JSON.parse(storedValue);
+  });
   //SHOWS WHILE API IS LOADING
   const [isLoading, setIsLoading] = useState(false);
   //SETS AN ERROR MESSAGE IF API DOES NOT FETCH INFO
@@ -45,6 +50,7 @@ export default function App() {
   function handleAddWatched(movie) {
     setWatched((prevState) => [...prevState, movie]);
   }
+  //DELETES MOVIE FROM WATCHED ARRAY
   function handleDeleteWatched(id) {
     setWatched((watched) =>
       watched.filter((movie) => movie.imdbID.imdbID !== id)
@@ -94,6 +100,9 @@ export default function App() {
     };
   }, [query]);
 
+  useEffect(() => {
+    localStorage.setItem('watched', JSON.stringify(watched));
+  }, [watched]);
   return (
     <>
       <Navbar>
