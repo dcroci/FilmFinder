@@ -24,7 +24,7 @@ export default function App() {
   //USES LAZY STATE INITIALIZATION TO GET MOVIES FROM LOCAL STORAGE
   const [watched, setWatched] = useState(() => {
     const storedValue = localStorage.getItem('watched');
-    return JSON.parse(storedValue);
+    return JSON.parse(storedValue) || [];
   });
   //SHOWS WHILE API IS LOADING
   const [isLoading, setIsLoading] = useState(false);
