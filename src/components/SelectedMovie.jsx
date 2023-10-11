@@ -58,10 +58,11 @@ export default function SelectedMovie({
     };
   }, [onResetSelectedId]);
 
-  const isWatched = watched.map((movie) => movie.imdbID.imdbID).includes(id);
-  const watchedUserRating = watched.find(
-    (movie) => movie.imdbID.imdbID === id
-  )?.userRating;
+  const isWatched =
+    watched && watched.map((movie) => movie.imdbID.imdbID).includes(id);
+  const watchedUserRating = watched
+    ? watched.find((movie) => movie.imdbID.imdbID === id)?.userRating
+    : null;
   function handleAdd() {
     let newWatchedMovie = {
       imdbID: selectedMovie,
