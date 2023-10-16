@@ -15,16 +15,13 @@ import ErrorMessage from './components/ErrorMessage';
 import SelectedMovie from './components/SelectedMovie';
 import Footer from './components/Footer';
 import { useMovies } from './hooks/useMovies';
+import { useLocalStorageState } from './hooks/useLocalStorageState';
 
 export default function App() {
   //SEARCH BAR DATA
   const [query, setQuery] = useState('');
   //LIST OF MOVIES THAT HAVE BEEN ADDED TO WATCHED LIST
-  //USES LAZY STATE INITIALIZATION TO GET MOVIES FROM LOCAL STORAGE
-  const [watched, setWatched] = useState(() => {
-    const storedValue = localStorage.getItem('watched');
-    return JSON.parse(storedValue) || [];
-  });
+  const [watched, setWatched] = useLocalStorageState([], 'watched');
   //HANDLES USER INPUT IN SEARCH BAR
   const [selectedId, setSelectedId] = useState(null);
   //STATE FOR USER RATING FOR STAR COMPONENT
@@ -52,9 +49,6 @@ export default function App() {
     );
   }
 
-  useEffect(() => {
-    localStorage.setItem('watched', JSON.stringify(watched));
-  }, [watched]);
   const [movies, isLoading, error] = useMovies(query);
   return (
     <>
