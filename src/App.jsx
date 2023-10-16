@@ -14,22 +14,17 @@ import Loader from './components/Loader';
 import ErrorMessage from './components/ErrorMessage';
 import SelectedMovie from './components/SelectedMovie';
 import Footer from './components/Footer';
+import { useMovies } from './hooks/useMovies';
 
 export default function App() {
   //SEARCH BAR DATA
   const [query, setQuery] = useState('');
-  //LIST OF MOVIES THAT ARE A RESULT OF THE SEARCH
-  const [movies, setMovies] = useState([]);
   //LIST OF MOVIES THAT HAVE BEEN ADDED TO WATCHED LIST
   //USES LAZY STATE INITIALIZATION TO GET MOVIES FROM LOCAL STORAGE
   const [watched, setWatched] = useState(() => {
     const storedValue = localStorage.getItem('watched');
     return JSON.parse(storedValue) || [];
   });
-  //SHOWS WHILE API IS LOADING
-  const [isLoading, setIsLoading] = useState(false);
-  //SETS AN ERROR MESSAGE IF API DOES NOT FETCH INFO
-  const [error, setError] = useState('');
   //HANDLES USER INPUT IN SEARCH BAR
   const [selectedId, setSelectedId] = useState(null);
   //STATE FOR USER RATING FOR STAR COMPONENT
@@ -57,52 +52,10 @@ export default function App() {
     );
   }
 
-  //MAKE API CALL AND UPDATE MOVIES ARRAY
-  useEffect(() => {
-    const controller = new AbortController();
-    async function callAPI() {
-      try {
-        setIsLoading(true);
-        if (query.length > 2) {
-          const res = await fetch(
-            `https://www.omdbapi.com/?apikey=da90156c&s=${query}`,
-            { signal: controller.signal }
-          );
-          if (!res.ok) {
-            throw new Error('Something went wrong!');
-          }
-          const data = await res.json();
-          if (
-            data.Response === 'True' &&
-            data.Search &&
-            data.Search.length > 0
-          ) {
-            setMovies(data.Search);
-            setError('');
-          } else {
-            setMovies([]);
-            setError('Movie not found!');
-          }
-        } else {
-          setMovies([]);
-          setError('');
-        }
-      } catch (error) {
-        if (error.name !== 'AbortError') setError('Something went wrong!');
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    callAPI();
-    return () => {
-      controller.abort();
-    };
-  }, [query]);
-
   useEffect(() => {
     localStorage.setItem('watched', JSON.stringify(watched));
   }, [watched]);
+  const [movies, isLoading, error] = useMovies(query);
   return (
     <>
       <Navbar>
